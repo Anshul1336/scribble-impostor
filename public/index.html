@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scribble: Impostor</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="screen-home" class="screen active">
+  <div class="card">
+    <h1>Scribble<span class="tag">Impostor</span></h1>
+    <p class="sub">Draw, guess fast — one guesser already knows the word.</p>
+    <input id="name-input" maxlength="20" placeholder="Your name" />
+    <button id="btn-create" class="primary">Create Room</button>
+    <div class="or">or</div>
+    <input id="code-input" maxlength="4" placeholder="ROOM CODE" style="text-transform:uppercase" />
+    <button id="btn-join">Join Room</button>
+    <p id="home-error" class="error"></p>
+  </div>
+</div>
+
+<div id="screen-lobby" class="screen">
+  <div class="card wide">
+    <h2>Room <span id="lobby-code"></span></h2>
+    <div class="settings" id="host-settings" style="display:none">
+      <label>Rounds: <input type="number" id="rounds-input" value="6" min="3" max="20" style="width:60px" /></label>
+    </div>
+    <div id="player-list" class="plist"></div>
+    <button id="btn-start" class="primary" style="display:none">Start Game</button>
+    <p id="lobby-error" class="error"></p>
+    <p class="hint">3-8 players. Share the room code so friends can join from their own device.</p>
+  </div>
+</div>
+
+<div id="screen-game" class="screen wide-screen">
+  <div class="topbar">
+    <div id="round-banner" class="round-banner"></div>
+    <div id="timer-display" class="timer-display"></div>
+  </div>
+  <div id="role-banner" class="role-banner"></div>
+
+  <div class="game-layout">
+    <div class="canvas-wrap">
+      <canvas id="canvas" width="700" height="500"></canvas>
+      <div id="toolbar" class="toolbar" style="display:none">
+        <input type="color" id="color-picker" value="#111111" />
+        <input type="range" id="size-picker" min="2" max="24" value="5" />
+        <button id="btn-clear">Clear</button>
+      </div>
+    </div>
+    <div class="side-panel">
+      <div id="scoreboard" class="scoreboard"></div>
+      <div id="log" class="log"></div>
+      <div id="guess-panel" class="guess-panel">
+        <input id="guess-input" placeholder="Type your guess..." autocomplete="off" />
+        <button id="btn-guess">Send</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="vote-panel" class="vote-panel" style="display:none"></div>
+</div>
+
+<div id="screen-gameover" class="screen">
+  <div class="card wide">
+    <h2>Final Scores</h2>
+    <div id="final-scores"></div>
+    <button id="btn-again" class="primary">Back to Home</button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="client.js"></script>
+</body>
+</html>

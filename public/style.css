@@ -1,0 +1,107 @@
+:root{
+  --bg:#141821;
+  --panel:#1e2430;
+  --text:#eef1f6;
+  --muted:#93a0b4;
+  --accent:#6f5cd6;
+  --good:#4caf6d;
+  --bad:#d64545;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+.screen{display:none;min-height:100vh;align-items:center;justify-content:center;flex-direction:column;padding:16px}
+.screen.active{display:flex}
+.card{
+  background:var(--panel);
+  border-radius:16px;
+  padding:28px 24px;
+  width:100%;
+  max-width:380px;
+  text-align:center;
+  box-shadow:0 8px 30px rgba(0,0,0,.35);
+}
+.card.wide{max-width:900px}
+h1{margin:0 0 4px;font-size:28px}
+.tag{display:block;font-size:14px;color:var(--muted);font-weight:400;margin-top:2px}
+.sub{color:var(--muted);margin-bottom:20px;font-size:14px}
+input{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:1px solid #333c4d;
+  background:#10141c;
+  color:var(--text);
+  margin-bottom:10px;
+  font-size:15px;
+}
+button{
+  width:100%;
+  padding:12px;
+  border-radius:8px;
+  border:none;
+  background:#2a3242;
+  color:var(--text);
+  font-size:15px;
+  cursor:pointer;
+  margin-bottom:10px;
+  transition:background .15s;
+}
+button:hover{background:#343e52}
+button.primary{background:linear-gradient(135deg,#6f5cd6,#4a3fb0)}
+button.primary:hover{filter:brightness(1.1)}
+.or{color:var(--muted);margin:8px 0;font-size:12px}
+.error{color:#ff8080;min-height:18px;font-size:13px}
+.hint{color:var(--muted);font-size:12px;margin-top:10px}
+
+#lobby-code{color:#ffd166;letter-spacing:2px}
+.settings{margin:14px 0;font-size:14px;color:var(--muted)}
+.settings label{display:inline-flex;align-items:center;gap:6px}
+.settings input{width:auto;margin:0;display:inline-block}
+.plist{min-height:60px;margin:14px 0;text-align:left;background:#161b25;border-radius:10px;padding:10px}
+.plist .p{padding:6px 10px;border-radius:6px;background:#0f1319;margin-bottom:4px;font-size:14px;display:flex;justify-content:space-between}
+
+.screen.wide-screen{max-width:1000px;margin:0 auto;align-items:stretch}
+.topbar{display:flex;align-items:center;justify-content:space-between;width:100%;margin-bottom:6px}
+.round-banner{font-weight:700;font-size:16px;padding:6px 14px;border-radius:20px;background:#232a38}
+.timer-display{font-variant-numeric:tabular-nums;font-weight:700;color:#ffd166;font-size:18px}
+.role-banner{text-align:center;color:var(--muted);font-size:14px;margin-bottom:10px;min-height:20px}
+.role-banner.artist{color:#ffd166;font-weight:700}
+.role-banner.impostor{color:#ff5c8a;font-weight:700}
+
+.game-layout{display:flex;gap:14px;width:100%;flex-wrap:wrap}
+.canvas-wrap{flex:2;min-width:300px;background:var(--panel);border-radius:12px;padding:10px;position:relative}
+#canvas{width:100%;height:auto;background:#fff;border-radius:8px;touch-action:none;cursor:crosshair;display:block}
+.toolbar{display:flex;gap:10px;align-items:center;margin-top:8px}
+.toolbar input[type=color]{width:40px;height:32px;padding:0;margin:0;border-radius:6px}
+.toolbar input[type=range]{width:120px;margin:0}
+.toolbar button{width:auto;padding:6px 14px;margin:0}
+
+.side-panel{flex:1;min-width:240px;display:flex;flex-direction:column;gap:10px}
+.scoreboard{background:var(--panel);border-radius:10px;padding:10px;font-size:13px;max-height:150px;overflow-y:auto}
+.scoreboard .row{display:flex;justify-content:space-between;padding:3px 0}
+.log{background:#10141c;border-radius:10px;padding:10px;flex:1;min-height:160px;max-height:260px;overflow-y:auto;font-size:13px}
+.log div{margin-bottom:4px}
+.log .guess-correct{color:var(--good);font-weight:600}
+.log .guess-wrong{color:var(--text)}
+.log .system{color:var(--muted);font-style:italic}
+.guess-panel{display:flex;gap:8px}
+.guess-panel input{margin:0}
+.guess-panel button{width:auto;padding:12px 16px;margin:0}
+
+.vote-panel{width:100%;background:var(--panel);border-radius:12px;padding:16px;margin-top:14px}
+.vote-panel h3{margin-top:0}
+.vote-options{display:flex;gap:8px;flex-wrap:wrap}
+.vote-options button{width:auto;padding:8px 14px}
+.vote-options button.selected{background:var(--accent)}
+
+#final-scores .row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #2a3242;font-size:16px}
+
+@media (max-width:700px){
+  .game-layout{flex-direction:column}
+}
