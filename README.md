@@ -2,7 +2,9 @@
 
 Real-time multiplayer drawing-and-guessing game for 3-8 players — with a hidden Impostor twist.
 
-**Play now:** (add live link here after deploying)
+**Play now:** https://scribble-impostor.onrender.com
+
+> Free hosting tier — if the link is slow on first load (~30-50s), the server is just waking up from idle.
 
 Built with the help of AI (Claude Code / Claude Opus) — game design, backend, frontend, and deployment.
 
