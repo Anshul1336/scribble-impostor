@@ -185,14 +185,18 @@ function resolveVotes(room) {
     caught,
   };
 
+  const impostorName = room.players[room.currentImpostorId]
+    ? room.players[room.currentImpostorId].name
+    : "The Impostor (left the game)";
+
   if (caught && room.impostorGuessedCorrectly) {
     room.roundScores[room.currentImpostorId] = 0;
-    addLog(room, `${room.players[room.currentImpostorId].name} was the Impostor and got caught! Round points forfeited.`, "system");
+    addLog(room, `${impostorName} was the Impostor and got caught! Round points forfeited.`, "system");
   } else if (room.currentImpostorId) {
     if (room.impostorGuessedCorrectly) {
-      addLog(room, `${room.players[room.currentImpostorId].name} was the Impostor and blended in! Points kept.`, "system");
+      addLog(room, `${impostorName} was the Impostor and blended in! Points kept.`, "system");
     } else {
-      addLog(room, `${room.players[room.currentImpostorId].name} was the Impostor.`, "system");
+      addLog(room, `${impostorName} was the Impostor.`, "system");
     }
   }
 
@@ -265,13 +269,15 @@ io.on("connection", (socket) => {
     io.to(room.code).emit("lobby_update", lobbyState(room));
   });
 
-  socket.on("start_game", (ack) => {
+  socket.on("start_game", (totalRounds, ack) => {
     const room = rooms[socket.data.roomCode];
     if (!room || socket.id !== room.hostId) return ack && ack({ success: false, error: "Only host can start." });
     if (Object.keys(room.players).length < 3) {
       return ack && ack({ success: false, error: "Need at least 3 players." });
     }
+    room.totalRounds = Math.max(3, Math.min(20, parseInt(totalRounds, 10) || room.totalRounds));
     ack && ack({ success: true });
+    io.to(room.code).emit("lobby_update", lobbyState(room));
     startRound(room);
   });
 
@@ -349,20 +355,37 @@ io.on("connection", (socket) => {
     const code = socket.data.roomCode;
     const room = rooms[code];
     if (!room) return;
-    delete room.players[socket.id];
+    const leavingId = socket.id;
+    const wasArtist = leavingId === room.currentArtistId;
+    delete room.players[leavingId];
+    if (room.roundScores) delete room.roundScores[leavingId];
+
     if (Object.keys(room.players).length === 0) {
       clearTimer(room);
       delete rooms[code];
       return;
     }
-    if (room.hostId === socket.id) {
+    if (room.hostId === leavingId) {
       room.hostId = Object.keys(room.players)[0];
     }
     if (room.phase === "lobby") {
       io.to(code).emit("lobby_update", lobbyState(room));
-    } else {
-      broadcastState(room);
+      return;
     }
+
+    addLog(room, "A player left the game.", "system");
+
+    if (room.phase === "round" && wasArtist) {
+      addLog(room, "The artist left — skipping to the next round.", "system");
+      endDrawingPhase(room);
+      return;
+    }
+    if (Object.keys(room.players).length < 2 && room.phase !== "gameover") {
+      addLog(room, "Not enough players left — game over.", "system");
+      endGame(room);
+      return;
+    }
+    broadcastState(room);
   }
 });
 

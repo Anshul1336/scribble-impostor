@@ -44,7 +44,8 @@ function setErr(id, msg) {
 
 // ---------- LOBBY ----------
 document.getElementById("btn-start").onclick = () => {
-  socket.emit("start_game", (res) => {
+  const rounds = document.getElementById("rounds-input").value;
+  socket.emit("start_game", rounds, (res) => {
     if (!res.success) setErr("lobby-error", res.error);
   });
 };
